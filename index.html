@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Music Festival</title>
+  <!-- Bootstrap/Vue CSS -->
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap/dist/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.css" />
+
+  <!-- Specific styles for this page -->
+  <link type="text/css" rel="stylesheet" href="assets/styles/styles.css" </head>
+
+  <body>
+    <div id="app">
+      <!-- Navigation -->
+      <nav class="navbar navbar-dark bg-dark fixed-top">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img src="assets/svg/logo.svg" alt="">
+          </a>
+          <!-- Language Switcher -->
+          <div class="ml-auto">
+            <transition name="fade">
+              <b-form-select v-show="languages.length > 0" v-model="currentLanguage" @input="getInfoPageContent" :options="languages" size="sm"></b-form-select>
+            </transition>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Hero Image -->
+      <transition name="fade">
+        <b-jumbotron v-show="title" bg-variant="dark" text-variant="white" class="hero-jumbotron" v-bind:style="{ backgroundImage: 'url(' + heroImage + ')' }">
+          <div class="container">
+            <h1 class="display-4" v-text="title"></h1>
+            <p class="lead" v-text="preamble">
+              </h2>
+          </div>
+        </b-jumbotron>
+      </transition>
+
+      <div class="container">
+        <!-- Main Body Content -->
+        <div class="row">
+          <transition name="fade">
+            <div class="col-lg-12" v-show="mainBody" v-html="mainBody"></div>
+          </transition>
+        </div>
+
+        <!-- Artist List -->
+        <transition name="fade">
+          <div v-show="artists.length > 0">
+            <div class="row mt-3">
+              <div class="col-sm-7">
+                <h2>Artists</h2>
+              </div>
+              <!-- Artist Sort Dropdown -->
+              <div class="col-sm-5 mb-3 mt-2">
+                <b-form inline>
+                  <label class="mr-sm-2" for="sort-option-dropdown" v-show="currentSort">Sort</label>
+                  <b-form-select id="sort-option-dropdown" v-model="currentSort" v-show="currentSort" @input="getArtists" :options="sortOptions" class="mb-2 mr-sm-2 mb-sm-0"></b-form-select>
+                  <label class="mr-sm-2" for="sort-option-dropdown" v-show="currentFilter">Filter</label>
+                  <b-form-select id="sort-option-dropdown" v-model="currentFilter" v-show="currentFilter" @input="getArtists" :options="filterOptions" class="mb-2 mr-sm-2 mb-sm-0"></b-form-select>
+                  <vue-simple-spinner v-show="loadingArtists"></vue-simple-spinner>
+                </b-form>
+              </div>
+            </div>
+
+            <!-- Artist Grid -->
+            <transition-group name="artist-list" tag="div" class="row">
+              <div class="col-lg-3 col-md-4 col-xs-6" v-for="artist in artists" :key="artist.ContentLink.Id">
+                <b-card bg-variant="dark" text-variant="white" class="mb-3" :img-src="artist.ArtistPhoto.Value">
+                  <h6 class="card-title" v-text="artist.ArtistName.Value"></h6>
+                  <p class="small mb-0" v-text="formatPerformanceTime(artist.PerformanceStartTime.Value)"></p>
+                  <p class="small" v-text="artist.StageName.Value + ' Stage'"></p>
+                  <b-badge variant="danger" class="float-left" v-if="artist.ArtistIsHeadliner.Value">Headliner</b-badge>
+                  <b-badge variant="info" class="float-right" v-text="artist.ArtistGenre.Value"></b-badge>
+                </b-card>
+              </div>
+            </transition-group>
+
+          </div>
+        </transition>
+      </div>
+    </div>
+
+    <!-- Vue + Bootstrap-Vue JS -->
+    <script src="https://unpkg.com/vue@2.5.13/dist/vue.js"></script>
+    <script src="https://unpkg.com/babel-polyfill@latest/dist/polyfill.min.js"></script>
+    <script src="https://unpkg.com/bootstrap-vue@latest/dist/bootstrap-vue.js"></script>
+    <script src="https://unpkg.com/vue-simple-spinner@1.2.8/dist/vue-simple-spinner.min.js"></script>
+    <!-- Axios + Polyfill -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/url-search-params/0.10.0/url-search-params.js"></script>
+
+    <!-- JS for this Lab -->
+    <script src="index.js"></script>
+
+  </body>
+
+</html>

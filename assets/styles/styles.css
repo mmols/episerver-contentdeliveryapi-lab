@@ -1,0 +1,61 @@
+body {
+    padding-top: 54px;
+  }
+
+  @media (min-width: 992px) {
+    body {
+      padding-top: 56px;
+    }
+  }
+
+  .hero-jumbotron {
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    background-position-y: 100%;
+  }
+
+  .bg-dark {
+    background-color: #1a237e !important;
+  }
+
+  .badge-info {
+    background-color: rgba(236, 64, 122, .24);
+  }
+
+  .artist-list-item {
+    transition: all 1s;
+    display: inline-block;
+    margin-right: 10px;
+  }
+
+  .artist-list-enter,
+  .artist-list-leave-to {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  .artist-list-leave-active {
+    position: absolute;
+  }
+
+  .artist-list-move {
+    transition: transform .5s;
+  }
+
+  .fade-enter-active,
+  .fade-leave-active {
+    transition: opacity .8s;
+  }
+
+  .fade-enter,
+  .fade-leave-to
+  /* .fade-leave-active below version 2.1.8 */
+
+    {
+    opacity: 0;
+  }
+
+  .v-cloak {
+    display: none;
+  }
